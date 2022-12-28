@@ -64,27 +64,76 @@ function calculateWinner(playerPoints, computerPoints) {
     return playerPoints > computerPoints ? "Player" : "Computer";
 }
 
-function game() {
-    let playerPoints = 0;
-    let computerPoints = 0;
+const resultContainer = document.getElementById("resultContainer");
+const playerPointsH2 = document.getElementById("playerPoints");
+const computerPointsH2 = document.getElementById("computerPoints");
+const buttonsList = document.querySelectorAll("button");
 
-    for (let i = 0; i < 5; i++) {
-        const playerSelection = prompt("Rock? Paper or Scissors? ", "rock");
-        const roundResult = playRound(playerSelection, getComputerChoice());
-        
-        if (roundResult.winner === "player") {
-            playerPoints++;
-        } else if (roundResult.winner === "computer") {
-            computerPoints++;
+let playerPoints = 0;
+let computerPoints = 0;
+
+buttonsList.forEach(button => {
+    
+    button.addEventListener('click', e => {
+        const playerSelection = e.target.value;
+        const result = playRound(playerSelection, getComputerChoice());
+
+        if (result.winner === "player") {
+            updatePlayerPoints();
+        } else if (result.winner === "computer") {
+            updateComputerPoints();
         }
-    }
 
-    console.log("Player points: " + playerPoints);
-    console.log("Computer points: " + computerPoints);
-    console.log(`The winner is the ${calculateWinner(playerPoints, computerPoints)}!`);
+        if (computerPoints === 5) {
+            alert("Computer wins!");
+            resetGame();
+            return;
+        }
+
+        if (playerPoints === 5) {
+            alert("Player wins!");
+            resetGame();
+            return;
+        }
+
+        const resultDiv = createResultDiv(result.message);
+        resultContainer.appendChild(resultDiv);
+    });
+
+});
+
+function resetGame() {
+    playerPoints = 0;
+    computerPoints = 0;
+    playerPointsH2.textContent = `Player score: ${+playerPoints}`;
+    computerPointsH2.textContent = `Computer score: ${+computerPoints}`;
+
+    const resultDivs = document.querySelectorAll("div.resultElement");
+    resultDivs.forEach(div => {
+        div.remove();
+    });
 }
 
-const playerSelection = "Scissors";
-const computerSelection = getComputerChoice();
+function updatePlayerPoints() {
+    playerPoints++;
+    playerPointsH2.textContent = `Player score: ${+playerPoints}`;
+}
 
-game();
+function updateComputerPoints() {
+    computerPoints++;
+    computerPointsH2.textContent = `Computer score: ${+computerPoints}`;
+}
+
+function createResultDiv(resultMessage) {
+    const resultDiv = document.createElement("div");
+    resultDiv.classList.add("resultElement");
+    resultDiv.style.border = "2px solid #fff";
+    resultDiv.style.background = "#034f84";
+    resultDiv.style.color = "#fff";
+    resultDiv.style.padding = "20px";
+    resultDiv.style.width = "50%";
+    resultDiv.style.textAlign = "center";
+    resultDiv.textContent = resultMessage;
+
+    return resultDiv;
+}
