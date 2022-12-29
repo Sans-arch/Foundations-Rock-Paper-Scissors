@@ -65,6 +65,7 @@ function calculateWinner(playerPoints, computerPoints) {
 }
 
 const resultContainer = document.getElementById("resultContainer");
+const winnerContainer = document.getElementById("winner");
 const playerPointsH2 = document.getElementById("playerPoints");
 const computerPointsH2 = document.getElementById("computerPoints");
 const buttonsList = document.querySelectorAll("button");
@@ -72,9 +73,17 @@ const buttonsList = document.querySelectorAll("button");
 let playerPoints = 0;
 let computerPoints = 0;
 
+let someoneWon = false;
+
 buttonsList.forEach(button => {
     
     button.addEventListener('click', e => {
+        // Remover o ganhador após pontuar again
+        if (someoneWon) {
+            hideWinner();
+            someoneWon = false;
+        }
+
         const playerSelection = e.target.value;
         const result = playRound(playerSelection, getComputerChoice());
 
@@ -83,15 +92,19 @@ buttonsList.forEach(button => {
         } else if (result.winner === "computer") {
             updateComputerPoints();
         }
-
+        
         if (computerPoints === 5) {
-            alert("Computer wins!");
+            showWinner();
+            winnerContainer.textContent = "Computer is the winner!";
+            someoneWon = true;
             resetGame();
             return;
         }
-
+        
         if (playerPoints === 5) {
-            alert("Player wins!");
+            showWinner();
+            winnerContainer.textContent = "Player is the winner!";
+            someoneWon = true;
             resetGame();
             return;
         }
@@ -131,9 +144,18 @@ function createResultDiv(resultMessage) {
     resultDiv.style.background = "#034f84";
     resultDiv.style.color = "#fff";
     resultDiv.style.padding = "20px";
-    resultDiv.style.width = "50%";
+    resultDiv.style.width = "100%";
     resultDiv.style.textAlign = "center";
+    resultDiv.style.boxSizing = "border-box";
     resultDiv.textContent = resultMessage;
 
     return resultDiv;
+}
+
+function hideWinner() {
+    winnerContainer.style.display = "none";
+}
+
+function showWinner() {
+    winnerContainer.style.display = "flex";
 }

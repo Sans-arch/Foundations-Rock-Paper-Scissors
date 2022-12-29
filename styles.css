@@ -4,6 +4,25 @@ body {
   font-family: 'Fira Sans', sans-serif;
   background-color: #494d5f;
   color: #fff;
+}
+
+div#points {
+  text-align: center;
+  padding: 20px;
+}
+
+#playerPoints {
+  display: inline;
+  margin-right: 20px;
+}
+
+#computerPoints {
+  display: inline;
+  margin-left: 20px;
+}
+
+#optionList {
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -16,10 +35,6 @@ button.btn {
   cursor: pointer;
 }
 
-#optionList {
-  margin-bottom: 2rem;
-}
-
 .resultElement {
   margin-bottom: 20px;
 }
@@ -28,9 +43,47 @@ button.btn {
   margin-bottom: 0;
 }
 
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 #resultContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 3rem;
+  width: 50%;
+}
+
+#winner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  width: 50%;
+  padding: 10rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
